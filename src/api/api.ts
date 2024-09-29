@@ -22,6 +22,8 @@ export class Api {
             this.app.get(rota, funcao)
         } else if (metodo === "DELETE") {
             this.app.delete(rota, funcao)
+        }else if(metodo==="PUT"){
+            this.app.put(rota, funcao)
         }
     }
 

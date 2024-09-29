@@ -50,4 +50,16 @@ export class LivroDao {
             throw new Error("Erro ao deletar o livro.")
         }
     }
+
+    public async atualizar(livro: Livro): Promise<boolean>  {
+        try {
+            const { id, titulo, autor, quantidade } = livro
+            await conexao.query('UPDATE livro SET titulo=?, autor=?, quantidade=? WHERE id=?', [titulo, autor, quantidade, id])
+            return true
+        } catch (error) {
+            console.log(error)
+            throw new Error("Erro ao atualizar o livro.")
+        }
+
+    }
 }

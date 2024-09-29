@@ -36,4 +36,15 @@ export class LivroServico {
         }
 
     }
+
+    public async atualizar(id: string, titulo: string, autor: string, quantidade: number): Promise<boolean> {
+
+        const livro = Livro.construir(id, titulo, autor, quantidade)
+        try {
+            return await this.livroDao.atualizar(livro)
+        } catch (error) {
+            throw error;
+        }
+
+    }
 }
