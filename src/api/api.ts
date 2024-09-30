@@ -24,6 +24,8 @@ export class Api {
             this.app.delete(rota, funcao)
         }else if(metodo==="PUT"){
             this.app.put(rota, funcao)
+        }else if(metodo==="PATCH"){
+            this.app.patch(rota,funcao)
         }
     }
 

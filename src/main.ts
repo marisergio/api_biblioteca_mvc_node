@@ -9,6 +9,7 @@ function main() {
     api.addRota("/livros/:id", "GET", livroControle.buscar)
     api.addRota("/livros/:id", "DELETE", livroControle.deletar)
     api.addRota("/livros/:id", "PUT", livroControle.atualizar)
+    api.addRota("/livros/emprestar/:id", "PATCH", livroControle.emprestar)
     api.start()
 }
 

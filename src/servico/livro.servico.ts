@@ -47,4 +47,20 @@ export class LivroServico {
         }
 
     }
+
+    public async emprestar(id: string): Promise<boolean> {
+        try {
+            let livro: Livro | null = await this.livroDao.buscar(id)
+            if (livro) {
+                const isEmprestado = livro.emprestar()
+                if (isEmprestado) {
+                    return await this.livroDao.atualizar(livro)
+                }
+                return false
+            }
+            return false;
+        } catch (error) {
+            throw error
+        }
+    }
 }
