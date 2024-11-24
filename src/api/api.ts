@@ -15,7 +15,7 @@ export class Api {
         })
     }
 
-    public addRota(rota: string, metodo: string, funcao: (resquest: Request, response: Response) => void): void {
+    public addRota(rota: string, metodo: string, funcao: (request: Request, response: Response) => void): void {
         if (metodo === "POST") {
             this.app.post(rota, funcao)
         } else if (metodo === "GET") {
