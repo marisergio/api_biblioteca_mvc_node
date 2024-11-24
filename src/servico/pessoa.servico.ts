@@ -9,15 +9,15 @@ export class PessoaServico {
         return new PessoaServico(new PessoaDao())
     }
 
-    public salvar(pessoaDto: PessoaDtoCreate) {
+    public async salvar(pessoaDto: PessoaDtoCreate) {
         const pessoa = Pessoa.build(pessoaDto)
-        this.pessoaDao.salvar(pessoa)
+        await this.pessoaDao.salvar(pessoa)
         return pessoa.props;
     }
 
     public async listar(): Promise<PessoaListarDto[] | null> {
         const pessoasDto: PessoaListarDto[] | null = await this.pessoaDao.listar()
-        if (pessoasDto) {            
+        if (pessoasDto) {
             return pessoasDto
         }
         return null

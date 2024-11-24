@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Api } from "./api/api";
 import { LivroControle } from "./controle/livro.controle";
 import { PessoaControle } from "./controle/pessoa.controle";

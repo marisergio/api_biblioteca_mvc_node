@@ -1,3 +1,5 @@
+import { validate } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
 import { Request, Response } from "express"
 import { PessoaServico } from "../servico/pessoa.servico"
 import { PessoaDtoCreate } from "../dto/pessoa.dto"
@@ -5,9 +7,20 @@ import { PessoaDtoCreate } from "../dto/pessoa.dto"
 export class PessoaControle {
 
 
-    public adicionar(req: Request, res: Response) {
-        const pessoaDto: PessoaDtoCreate = req.body
-        const pessoa = PessoaServico.build().salvar(pessoaDto)
+    public async adicionar(req: Request, res: Response) {
+
+        // Converte os dados brutos para uma instância da classe DTO
+        const pessoaDto = plainToInstance(PessoaDtoCreate, req.body);
+
+        // Valida os dados
+        const erros = await validate(pessoaDto);
+
+        if (erros.length > 0) {
+            return res.status(400).json({ errors: erros.map(err => err.constraints) });
+        }
+
+        // const pessoaDto: PessoaDtoCreate = req.body
+        const pessoa = await PessoaServico.build().salvar(pessoaDto)
         res.status(201).json(pessoa).send()
     }
 

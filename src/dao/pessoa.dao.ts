@@ -1,5 +1,5 @@
 import { RowDataPacket } from "mysql2";
-import { Pessoa, PessoaProps } from "../modelo/pessoa";
+import { Pessoa } from "../modelo/pessoa";
 import conexao from "../util/conexao";
 import { GenericDao } from "./generic.dao";
 import { PessoaListarDto } from "../dto/pessoa.dto";
@@ -55,7 +55,7 @@ export class PessoaDao implements GenericDao<Pessoa>{
 
     public async listar(): Promise<PessoaListarDto[] | null> {
         try {
-            const [pessoasDto] = await conexao.query<PessoaListarDto[]>(
+            const [pessoasDto] = await conexao.query<PessoaListarDto[] & RowDataPacket[]>(
                 'SELECT id, nome, cpf FROM pessoa'
             );
             if (pessoasDto.length === 0) {
