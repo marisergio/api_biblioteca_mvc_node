@@ -6,30 +6,7 @@ export class PessoaControle {
 
 
     public adicionar(req: Request, res: Response) {
-        const { nome,
-            nascimento,
-            sexo,
-            cpf,
-            celular,
-            email,
-            logradouro,
-            numero,
-            bairro,
-            cep,
-            cidade_id } = req.body
-        const pessoaDto: PessoaDtoCreate = {
-            nome,
-            nascimento,
-            sexo,
-            cpf,
-            celular,
-            email,
-            logradouro,
-            numero,
-            bairro,
-            cep,
-            cidade_id
-        }
+        const pessoaDto: PessoaDtoCreate = req.body
         const pessoa = PessoaServico.build().salvar(pessoaDto)
         res.status(201).json(pessoa).send()
     }
