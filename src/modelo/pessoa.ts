@@ -4,15 +4,15 @@ import { Cidade } from "./cidade"
 export type PessoaProps = {
     id: string,
     nome: string,
-    nascimento: Date,
-    sexo: 'M' | 'F',
-    cpf: string,
-    celular: string,
-    email: string,
-    logradouro: string,
-    numero: string,
-    bairro: string,
-    cep: string,
+    nascimento?: Date,
+    sexo?: 'M' | 'F' | 'O',
+    cpf?: string,
+    celular?: string,
+    email?: string,
+    logradouro?: string,
+    numero?: string,
+    bairro?: string,
+    cep?: string,
     cidade?: Cidade,
     cidade_id?: number
 }
@@ -54,16 +54,16 @@ export class Pessoa {
     public static assemble(
         id: string,
         nome: string,
-        nascimento: Date,
-        sexo: 'M' | 'F',
-        cpf: string,
-        celular: string,
-        email: string,
-        logradouro: string,
-        numero: string,
-        bairro: string,
-        cep: string,
-        cidade: Cidade) {
+        nascimento?: Date,
+        sexo?: 'M' | 'F' | 'O',
+        cpf?: string,
+        celular?: string,
+        email?: string,
+        logradouro?: string,
+        numero?: string,
+        bairro?: string,
+        cep?: string,
+        cidade?: Cidade) {
 
         const props: PessoaProps = {
             id,

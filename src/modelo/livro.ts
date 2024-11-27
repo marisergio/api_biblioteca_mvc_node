@@ -1,15 +1,15 @@
 export type LivroProps = {
     id: string
     titulo: string
-    autor: string
-    quantidade: number
+    autor?: string
+    quantidade?: number
 }
 
-export class Livro{
+export class Livro {
 
-    private constructor(readonly props: LivroProps){} 
-    
-    public static build(titulo: string, autor: string){
+    private constructor(readonly props: LivroProps) { }
+
+    public static build(titulo: string, autor: string) {
         const props: LivroProps = {
             id: crypto.randomUUID().toString(),
             titulo,
@@ -20,7 +20,7 @@ export class Livro{
         return new Livro(props)
     }
 
-    public static construir(id: string, titulo: string, autor: string, quantidade: number){
+    public static construir(id: string, titulo: string, autor?: string, quantidade?: number) {
         const props: LivroProps = {
             id,
             titulo,
@@ -31,27 +31,27 @@ export class Livro{
         return new Livro(props)
     }
 
-    public emprestar(): boolean{
-        if(this.props.quantidade>0){
+    public emprestar(): boolean {
+        if (this.props.quantidade ?> 0) {
             this.props.quantidade--
             return true
         }
         return false
     }
 
-    public get id(){
+    public get id() {
         return this.props.id
     }
 
-    public get titulo(){
+    public get titulo() {
         return this.props.titulo
     }
 
-    public get autor(){
+    public get autor() {
         return this.props.autor
     }
 
-    public get quantidade(){
+    public get quantidade() {
         return this.props.quantidade
     }
 }

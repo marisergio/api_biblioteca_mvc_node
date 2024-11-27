@@ -17,7 +17,7 @@ export class PessoaDtoCreate {
     nascimento: Date;
 
     @IsEnum(['M', 'F'], { message: 'Sexo deve ser "M" ou "F"' })
-    sexo: 'M' | 'F';
+    sexo: 'M' | 'F' | 'O';
 
     @Matches(/^\d{11}$/, { message: 'CPF deve conter 11 dígitos numéricos' })
     cpf: string;

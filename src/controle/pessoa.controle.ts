@@ -8,7 +8,6 @@ export class PessoaControle {
 
 
     public async adicionar(req: Request, res: Response) {
-
         // Converte os dados brutos para uma instância da classe DTO
         const pessoaDto = plainToInstance(PessoaDtoCreate, req.body);
 
