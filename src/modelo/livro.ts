@@ -32,7 +32,7 @@ export class Livro {
     }
 
     public emprestar(): boolean {
-        if (this.props.quantidade ?> 0) {
+        if (this.props.quantidade !== undefined && this.props.quantidade > 0) {
             this.props.quantidade--
             return true
         }

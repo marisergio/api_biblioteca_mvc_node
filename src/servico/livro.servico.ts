@@ -2,11 +2,7 @@ import { LivroDao } from "../dao/livro.dao";
 import { Livro, LivroProps } from "../modelo/livro";
 
 export class LivroServico {
-    private constructor(readonly livroDao: LivroDao) { }
-
-    public static build() {
-        return new LivroServico(new LivroDao())
-    }
+    public constructor(readonly livroDao: LivroDao) { }
 
     public salvar(titulo: string, autor: string) {
         const livro = Livro.build(titulo, autor)
