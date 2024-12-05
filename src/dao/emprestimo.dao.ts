@@ -39,6 +39,38 @@ export class EmprestimoDao implements GenericDao<Emprestimo>{
         }
     }
 
+    public async buscarQtdePorLeitor(leitor_id: string): Promise<number | null> {
+        try {
+            const [[result]] = await conexao.query<RowDataPacket[]>(
+                'SELECT count(*) qtde FROM emprestimo WHERE leitor_id=? and status=0',
+                [leitor_id])
+            if (!result) {
+                return null
+            }
+            const { qtde } = result
+            return qtde
+
+        } catch (error) {
+            throw error
+        }
+    }
+
+    public async buscarQtdePorLivro(livro_id: string): Promise<number | null> {
+        try {
+            const [[result]] = await conexao.query<RowDataPacket[]>(
+                'SELECT count(*) qtde FROM emprestimo WHERE livro_id=? and status=0',
+                [livro_id])
+            if (!result) {
+                return null
+            }
+            const { qtde } = result
+            return qtde
+
+        } catch (error) {
+            throw error
+        }
+    }
+
     public async atualizar(id: string, item: Partial<Emprestimo>): Promise<Emprestimo | null> {
         return null;
     }
@@ -47,20 +79,20 @@ export class EmprestimoDao implements GenericDao<Emprestimo>{
         return true;
     }
 
-    /* public async listar(): Promise<PessoaListarDto[] | null> {
-         try {
-             const [pessoasDto] = await conexao.query<PessoaListarDto[] & RowDataPacket[]>(
-                 'SELECT id, nome, cpf FROM pessoa'
-             );
-             if (pessoasDto.length === 0) {
-                 return null;
-             }
- 
-             return pessoasDto;
-         } catch (error) {
-             console.error('Erro ao listar pessoas:', error);
-             throw error;
-         }
-     }*/
+    public async listar(): Promise<Emprestimo[] | null> {
+        try {
+            const [pessoasDto] = await conexao.query<Emprestimo[] & RowDataPacket[]>(
+                'SELECT id, nome, cpf FROM pessoa'
+            );
+            if (pessoasDto.length === 0) {
+                return null;
+            }
+
+            return pessoasDto;
+        } catch (error) {
+            console.error('Erro ao listar pessoas:', error);
+            throw error;
+        }
+    }
 
 }

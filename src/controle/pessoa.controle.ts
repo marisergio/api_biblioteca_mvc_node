@@ -6,6 +6,7 @@ import { PessoaDtoCreate } from "../dto/pessoa.dto"
 
 export class PessoaControle {
 
+    public constructor(readonly pesssoaServico: PessoaServico) { }
 
     public async adicionar(req: Request, res: Response) {
         // Converte os dados brutos para uma instância da classe DTO
@@ -19,25 +20,25 @@ export class PessoaControle {
         }
 
         // const pessoaDto: PessoaDtoCreate = req.body
-        const pessoa = await PessoaServico.build().salvar(pessoaDto)
+        const pessoa = await this.pesssoaServico.salvar(pessoaDto)
         res.status(201).json(pessoa).send()
     }
 
     public async listar(req: Request, res: Response) {
-        const pessoasDto = await PessoaServico.build().listar()
+        const pessoasDto = await this.pesssoaServico.listar()
         res.status(200).json(pessoasDto).send()
     }
 
     public async buscar(req: Request, res: Response) {
         const { id } = req.params
-        const pessoa = await PessoaServico.build().buscar(id)
+        const pessoa = await this.pesssoaServico.buscar(id)
         res.status(200).json(pessoa).send()
     }
 
     /* public async deletar(req: Request, res: Response) {
          const { id } = req.params
          try {
-             const linhasAfetadas = await LivroServico.build().deletar(id);
+             const linhasAfetadas = await this.pesssoaServico.deletar(id);
              if (linhasAfetadas === 0) {
                  return res.status(404).json({ mensagem: "Livro não encontrado" });
              }
@@ -55,7 +56,7 @@ export class PessoaControle {
              const { titulo, autor, quantidade } = req.body
  
  
-             const isAtualizado = await LivroServico.build().atualizar(id, titulo, autor, quantidade)
+             const isAtualizado = await this.pesssoaServico.atualizar(id, titulo, autor, quantidade)
              if (!isAtualizado) {
                  return res.status(404).json({ mensagem: "Livro não encontrado" });
              }
@@ -71,7 +72,7 @@ export class PessoaControle {
          try {
              const { id } = req.params
  
-             const isEmprestado = await LivroServico.build().emprestar(id)
+             const isEmprestado = await this.pesssoaServico.emprestar(id)
              if (!isEmprestado) {
                  return res.status(404).json({ mensagem: "Operação falhou" });
              }

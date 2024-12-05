@@ -3,11 +3,7 @@ import { PessoaDtoCreate, PessoaListarDto } from "../dto/pessoa.dto";
 import { Pessoa, PessoaProps } from "../modelo/pessoa";
 
 export class PessoaServico {
-    private constructor(readonly pessoaDao: PessoaDao) { }
-
-    public static build() {
-        return new PessoaServico(new PessoaDao())
-    }
+    public constructor(readonly pessoaDao: PessoaDao) { }
 
     public async salvar(pessoaDto: PessoaDtoCreate) {
         const pessoa = Pessoa.build(pessoaDto)
