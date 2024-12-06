@@ -9,17 +9,25 @@ export class EmprestimoServico {
 
     public async emprestar(emprestimoDto: EmprestimoDtoCreate) {
         const qtdeEmprestimosAtivos = await this.emprestimoDao.buscarQtdePorLeitor(emprestimoDto.leitor_id);
-        if (qtdeEmprestimosAtivos != null && qtdeEmprestimosAtivos < 2) {
-            const livroDao = new LivroDao();
-            const livro = await livroDao.buscar(emprestimoDto.livro_id)
-            const qtdeEmprestimosPorLivro = await this.emprestimoDao.buscarQtdePorLivro(emprestimoDto.livro_id)
-            if(qtdeEmprestimosPorLivro!=null && livro?.quantidade != undefined && livro?.quantidade >qtdeEmprestimosPorLivro){
-               
-                const emprestimo = Emprestimo.build(emprestimoDto)
-
-                await this.emprestimoDao.salvar(emprestimo)
-            }
+        if (qtdeEmprestimosAtivos > 2) {
+            throw new Error("Erro: leitor já possui 2 empréstimos.")
         }
+
+        const livroDao = new LivroDao();
+        const livro = await livroDao.buscar(emprestimoDto.livro_id)
+        const qtdeEmprestimosPorLivro = await this.emprestimoDao.buscarQtdePorLivro(emprestimoDto.livro_id)
+
+        if (livro && livro.quantidade <= qtdeEmprestimosPorLivro) {
+            throw new Error("Erro: este livro não está disponível.")
+        }
+
+        try {
+            const emprestimo = Emprestimo.build(emprestimoDto)
+            await this.emprestimoDao.salvar(emprestimo)
+        } catch (error) {
+            throw error;
+        }
+
     }
 
 

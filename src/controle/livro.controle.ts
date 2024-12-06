@@ -1,13 +1,25 @@
 import { Request, Response } from "express"
 import { LivroServico } from "../servico/livro.servico"
+import { LivroInterfaceServico } from "../servico/livro.interface.servico"
+import { LivroDtoCreate } from "../dto/livro.dto"
+import { validate } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
 
 export class LivroControle {
 
-    public constructor(readonly livroService: LivroServico) { }
+    public constructor(readonly livroService: LivroInterfaceServico) { }
 
-    public adicionar(req: Request, res: Response) {
-        const { titulo, autor } = req.body
-        const livro = this.livroService.salvar(titulo, autor)
+    public async adicionar(req: Request, res: Response) {
+
+        const livroDto = plainToInstance(LivroDtoCreate, req.body);
+
+        const erros = await validate(livroDto);
+
+        if (erros.length > 0) {
+            return res.status(400).json({ errors: erros.map(err => err.constraints) });
+        }
+
+        const livro = await this.livroService.salvar(livroDto)
         res.status(201).json(livro).send()
     }
 
@@ -31,9 +43,9 @@ export class LivroControle {
             }
 
             return res.status(200).json({ mensagem: "Livro deletado com sucesso" });
-        } catch (error: Error) {
+        } catch (error) {
             // console.error(error); // Logar o erro para fins de depuração
-            return res.status(500).json({ mensagem: error.message });
+            return res.status(500).json({ mensagem: error });
         }
     }
 
@@ -43,19 +55,19 @@ export class LivroControle {
             const { titulo, autor, quantidade } = req.body
 
 
-            const isAtualizado = await this.livroService.atualizar(id, titulo, autor, quantidade)
+            const isAtualizado = await this.livroService.atualizar({ id, titulo, autor, quantidade })
             if (!isAtualizado) {
                 return res.status(404).json({ mensagem: "Livro não encontrado" });
             }
 
             return res.status(200).json({ mensagem: "Livro atualizado com sucesso" });
-        } catch (error: Error) {
+        } catch (error) {
             // console.error(error); // Logar o erro para fins de depuração
-            return res.status(500).json({ mensagem: error.message });
+            return res.status(500).json({ mensagem: error });
         }
     }
 
-    public async emprestar(req: Request, res: Response) {
+    /*public async emprestar(req: Request, res: Response) {
         try {
             const { id } = req.params
 
@@ -69,5 +81,5 @@ export class LivroControle {
             // console.error(error); // Logar o erro para fins de depuração
             return res.status(500).json({ mensagem: error.message });
         }
-    }
+    }*/
 }

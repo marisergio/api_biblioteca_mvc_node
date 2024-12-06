@@ -51,7 +51,7 @@ export class LivroDao {
         }
     }
 
-    public async atualizar(livro: Livro): Promise<boolean>  {
+    public async atualizar(livro: Livro): Promise<boolean> {
         try {
             const { id, titulo, autor, quantidade } = livro
             await conexao.query('UPDATE livro SET titulo=?, autor=?, quantidade=? WHERE id=?', [titulo, autor, quantidade, id])

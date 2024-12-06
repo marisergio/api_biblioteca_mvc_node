@@ -1,8 +1,8 @@
 export type LivroProps = {
     id: string
     titulo: string
-    autor?: string
-    quantidade?: number
+    autor: string
+    quantidade: number
 }
 
 export class Livro {
@@ -20,7 +20,7 @@ export class Livro {
         return new Livro(props)
     }
 
-    public static construir(id: string, titulo: string, autor?: string, quantidade?: number) {
+    public static construir(id: string, titulo: string, autor: string, quantidade: number) {
         const props: LivroProps = {
             id,
             titulo,
