@@ -19,19 +19,31 @@ export class LivroControle {
             return res.status(400).json({ errors: erros.map(err => err.constraints) });
         }
 
-        const livro = await this.livroService.salvar(livroDto)
-        res.status(201).json(livro).send()
+        try {
+            const livro = await this.livroService.salvar(livroDto)
+            res.status(201).json(livro).send()
+        } catch (error) {
+            return res.status(500).json({ mensagem: error });
+        }
     }
 
     public async listar(req: Request, res: Response) {
-        const livros = await this.livroService.listar()
-        res.status(200).json(livros).send()
+        try {
+            const livros = await this.livroService.listar()
+            res.status(200).json(livros).send()
+        } catch (error) {
+            return res.status(500).json({ mensagem: error });
+        }
     }
 
     public async buscar(req: Request, res: Response) {
-        const { id } = req.params
-        const livro = await this.livroService.buscar(id)
-        res.status(200).json(livro).send()
+        try {
+            const { id } = req.params
+            const livro = await this.livroService.buscar(id)
+            res.status(200).json(livro).send()
+        } catch (error) {
+            return res.status(500).json({ mensagem: error });
+        }
     }
 
     public async deletar(req: Request, res: Response) {

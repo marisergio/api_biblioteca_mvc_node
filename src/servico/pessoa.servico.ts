@@ -6,9 +6,13 @@ export class PessoaServico {
     public constructor(readonly pessoaDao: PessoaDao) { }
 
     public async salvar(pessoaDto: PessoaDtoCreate) {
-        const pessoa = Pessoa.build(pessoaDto)
-        await this.pessoaDao.salvar(pessoa)
-        return pessoa.props;
+        try {
+            const pessoa = Pessoa.build(pessoaDto)
+            await this.pessoaDao.salvar(pessoa)
+            return pessoa.props;
+        } catch (error) {
+            throw error
+        }
     }
 
     public async listar(): Promise<PessoaListarDto[] | null> {

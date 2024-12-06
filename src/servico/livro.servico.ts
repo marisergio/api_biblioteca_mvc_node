@@ -7,23 +7,35 @@ export class LivroServico implements LivroInterfaceServico {
     public constructor(readonly livroDao: LivroDao) { }
 
     public async salvar(livroDto: LivroDtoCreate): Promise<string> {
-        const livro = Livro.build(livroDto.titulo, livroDto.autor)
-        await this.livroDao.salvar(livro)
-        return livro.props.id;
+        try {
+            const livro = Livro.build(livroDto.titulo, livroDto.autor)
+            await this.livroDao.salvar(livro)
+            return livro.props.id;
+        } catch (error) {
+            throw error
+        }
     }
 
     public async listar(): Promise<LivroListarDto[]> {
-        const livros: Livro[] = await this.livroDao.listar()
-        const livrosDto: LivroListarDto[] = livros.map((livro) => {
-            const { id, titulo, autor } = livro.props
-            return { id, titulo, autor };
-        })
-        return livrosDto
+        try {
+            const livros: Livro[] = await this.livroDao.listar()
+            const livrosDto: LivroListarDto[] = livros.map((livro) => {
+                const { id, titulo, autor } = livro.props
+                return { id, titulo, autor };
+            })
+            return livrosDto
+        } catch (error) {
+            throw error
+        }
     }
 
     public async buscar(id: string): Promise<LivroProps | null> {
-        const livro: Livro | null = await this.livroDao.buscar(id)
-        return livro?.props ?? livro
+        try {
+            const livro: Livro | null = await this.livroDao.buscar(id)
+            return livro?.props ?? livro
+        } catch (error) {
+            throw error
+        }
     }
 
     public async deletar(id: string): Promise<number> {
