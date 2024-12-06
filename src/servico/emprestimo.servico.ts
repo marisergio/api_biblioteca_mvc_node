@@ -5,7 +5,7 @@ import { Emprestimo } from "../modelo/emprestimo";
 
 export class EmprestimoServico {
 
-    public constructor(readonly emprestimoDao: EmprestimoDao) { }
+    public constructor(readonly emprestimoDao: EmprestimoDao, readonly livroDao: LivroDao) { }
 
     public async emprestar(emprestimoDto: EmprestimoDtoCreate) {
         const qtdeEmprestimosAtivos = await this.emprestimoDao.buscarQtdePorLeitor(emprestimoDto.leitor_id);
@@ -13,8 +13,7 @@ export class EmprestimoServico {
             throw new Error("Erro: leitor já possui 2 empréstimos.")
         }
 
-        const livroDao = new LivroDao();
-        const livro = await livroDao.buscar(emprestimoDto.livro_id)
+        const livro = await this.livroDao.buscar(emprestimoDto.livro_id)
         const qtdeEmprestimosPorLivro = await this.emprestimoDao.buscarQtdePorLivro(emprestimoDto.livro_id)
 
         if (livro && livro.quantidade <= qtdeEmprestimosPorLivro) {
@@ -29,7 +28,5 @@ export class EmprestimoServico {
         }
 
     }
-
-
 
 }
