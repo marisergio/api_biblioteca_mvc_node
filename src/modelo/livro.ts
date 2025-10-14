@@ -10,6 +10,10 @@ export class Livro {
     private constructor(readonly props: LivroProps) { }
 
     public static build(titulo: string, autor: string) {
+
+        if (!titulo.trim()) throw new Error("Título não pode ser vazio");
+
+
         const props: LivroProps = {
             id: crypto.randomUUID().toString(),
             titulo,
