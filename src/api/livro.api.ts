@@ -16,7 +16,7 @@ export class LivroApi {
     }
 
     public addRotas() {
-        this.api.addRota("/livros", "POST", this.livroControle.atualizar.bind(this.livroControle))
+        this.api.addRota("/livros", "POST", this.livroControle.adicionar.bind(this.livroControle))
         this.api.addRota("/livros", "GET", this.livroControle.listar.bind(this.livroControle))
         this.api.addRota("/livros/:id", "GET", this.livroControle.buscar.bind(this.livroControle))
         this.api.addRota("/livros/:id", "DELETE", this.livroControle.deletar.bind(this.livroControle))

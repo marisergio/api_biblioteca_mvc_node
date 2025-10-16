@@ -21,7 +21,7 @@ export class LivroControle {
 
         try {
             const livro = await this.livroService.salvar(livroDto)
-            res.status(201).json(livro).send()
+            res.status(201).json(livro)
         } catch (error) {
             return res.status(500).json({ mensagem: error });
         }
@@ -30,7 +30,7 @@ export class LivroControle {
     public async listar(req: Request, res: Response) {
         try {
             const livros = await this.livroService.listar()
-            res.status(200).json(livros).send()
+            res.status(200).json({livros: livros})
         } catch (error) {
             return res.status(500).json({ mensagem: error });
         }
@@ -40,7 +40,7 @@ export class LivroControle {
         try {
             const { id } = req.params
             const livro = await this.livroService.buscar(id)
-            res.status(200).json(livro).send()
+            res.status(200).json(livro)
         } catch (error) {
             return res.status(500).json({ mensagem: error });
         }
@@ -64,10 +64,10 @@ export class LivroControle {
     public async atualizar(req: Request, res: Response) {
         try {
             const { id } = req.params
-            const { titulo, autor, quantidade } = req.body
+            const { titulo, autor, editora, anoLancamento } = req.body
 
 
-            const isAtualizado = await this.livroService.atualizar({ id, titulo, autor, quantidade })
+            const isAtualizado = await this.livroService.atualizar({ id, titulo, autor, editora, anoLancamento, quantidade: 0 });
             if (!isAtualizado) {
                 return res.status(404).json({ mensagem: "Livro não encontrado" });
             }

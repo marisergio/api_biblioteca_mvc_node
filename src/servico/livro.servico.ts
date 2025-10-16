@@ -8,7 +8,7 @@ export class LivroServico implements LivroInterfaceServico {
 
     public async salvar(livroDto: LivroDtoCreate): Promise<string> {
         try {
-            const livro = Livro.build(livroDto.titulo, livroDto.autor)
+            const livro = Livro.build(livroDto.titulo, livroDto.autor, livroDto.editora, livroDto.anoLancamento)
             await this.livroDao.salvar(livro)
             return livro.props.id;
         } catch (error) {
@@ -18,11 +18,7 @@ export class LivroServico implements LivroInterfaceServico {
 
     public async listar(): Promise<LivroListarDto[]> {
         try {
-            const livros: Livro[] = await this.livroDao.listar()
-            const livrosDto: LivroListarDto[] = livros.map((livro) => {
-                const { id, titulo, autor } = livro.props
-                return { id, titulo, autor };
-            })
+            const livrosDto: LivroListarDto[] = await this.livroDao.listar()
             return livrosDto
         } catch (error) {
             throw error
@@ -49,8 +45,8 @@ export class LivroServico implements LivroInterfaceServico {
     }
 
     public async atualizar(livroDto: LivroProps): Promise<boolean> {
-        const { id, titulo, autor, quantidade } = livroDto
-        const livro = Livro.construir(id, titulo, autor, quantidade)
+        const { id, titulo, autor, editora, anoLancamento, quantidade } = livroDto
+        const livro = Livro.construir(id, titulo, autor, editora, anoLancamento, quantidade)
         try {
             return await this.livroDao.atualizar(livro)
         } catch (error) {
