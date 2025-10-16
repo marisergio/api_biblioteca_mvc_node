@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export type LivroListarDto = {
     id: string,
@@ -14,4 +14,12 @@ export class LivroDtoCreate {
     @IsNotEmpty()
     @IsString()
     autor: string;
+
+    @IsNotEmpty()
+    @IsString()
+    editora: string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    anoLancamento: number;
 }

@@ -1,10 +1,13 @@
 import express, { Express, Request, Response } from "express"
+import cors from "cors";
+
 
 export class Api {
     private constructor(readonly app: Express) { }
 
     public static build() {
         const app = express()
+        app.use(cors());
         app.use(express.json())
         return new Api(app)
     }
