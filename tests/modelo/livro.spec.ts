@@ -2,9 +2,9 @@ import { Livro } from "../../src/modelo/livro";
 
 describe("Livro (modelo de domínio)", () => {
 
-  // 🔹 Testa o método estático build()
-  test("deve construir um livro corretamente com build()", () => {
-    const livro = Livro.build("O Hobbit", "Tolkien");
+  // Testa o método estático build()
+  it("deve construir um livro corretamente com build()", () => {
+    const livro = Livro.build("O Hobbit", "Tolkien","Editora XYZ", 1937);
 
     // O ID deve ser uma string gerada
     expect(typeof livro.id).toBe("string");
@@ -15,19 +15,19 @@ describe("Livro (modelo de domínio)", () => {
     expect(livro.quantidade).toBe(0);
   });
 
-  // 🔹 Testa o método estático construir()
+  // Testa o método estático construir()
   test("deve construir um livro corretamente com construir()", () => {
-    const livro = Livro.construir("123", "1984", "George Orwell", 5);
+    const livro = Livro.construir("123", "Titulo Livro", "George Orwell", "Editora Livro", 1985, 5);
 
     expect(livro.id).toBe("123");
-    expect(livro.titulo).toBe("1984");
+    expect(livro.titulo).toBe("Titulo Livro");
     expect(livro.autor).toBe("George Orwell");
     expect(livro.quantidade).toBe(5);
   });
 
-  // 🔹 Testa o método emprestar() com sucesso
+  // Testa o método emprestar() com sucesso
   test("deve emprestar um livro quando há quantidade disponível", () => {
-    const livro = Livro.construir("1", "Clean Code", "Robert Martin", 3);
+    const livro = Livro.construir("1", "Clean Code", "Robert Martin", "Editora Clean Code", 2008, 3);
 
     const resultado = livro.emprestar();
 
@@ -37,9 +37,9 @@ describe("Livro (modelo de domínio)", () => {
     expect(livro.quantidade).toBe(2);
   });
 
-  // 🔹 Testa o método emprestar() quando não há mais exemplares
+  // Testa o método emprestar() quando não há mais exemplares
   test("não deve emprestar livro quando quantidade é 0", () => {
-    const livro = Livro.construir("2", "Design Patterns", "GoF", 0);
+    const livro = Livro.construir("2", "Design Patterns", "GoF","Editora Design Patterns", 2020, 0);
 
     const resultado = livro.emprestar();
 
@@ -48,9 +48,9 @@ describe("Livro (modelo de domínio)", () => {
     expect(livro.quantidade).toBe(0);
   });
 
-  // 🔹 Testa se o getter retorna as props corretamente
+  // Testa se o getter retorna as props corretamente
   test("getters devem retornar os valores corretos", () => {
-    const livro = Livro.construir("abc", "DDD", "Eric Evans", 7);
+    const livro = Livro.construir("abc", "DDD", "Eric Evans", "Editora DDD", 2000, 7);
 
     expect(livro.id).toBe("abc");
     expect(livro.titulo).toBe("DDD");
@@ -58,9 +58,9 @@ describe("Livro (modelo de domínio)", () => {
     expect(livro.quantidade).toBe(7);
   });
 
-  // 🔹 Teste de comportamento: emprestar repetidas vezes até acabar
+  // Teste de comportamento: emprestar repetidas vezes até acabar
   test("deve permitir emprestar até quantidade chegar a zero", () => {
-    const livro = Livro.construir("x", "Arquitetura Limpa", "Uncle Bob", 2);
+    const livro = Livro.construir("x", "Arquitetura Limpa", "Uncle Bob", "Editora Arquitetura Limpa", 2019, 2);
 
     expect(livro.emprestar()).toBe(true); // 2 → 1
     expect(livro.emprestar()).toBe(true); // 1 → 0
@@ -69,7 +69,7 @@ describe("Livro (modelo de domínio)", () => {
   });
 
   test("deve lançar erro se título for vazio", () => {
-    expect(() => Livro.build("", "Autor")).toThrow("Título não pode ser vazio");
+    expect(() => Livro.build("", "Autor","Editora Livro", 2020)).toThrow("Título não pode ser vazio");
   });
 
 });
