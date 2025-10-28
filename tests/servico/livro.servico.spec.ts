@@ -2,15 +2,16 @@ import { LivroServico } from "../../src/servico/livro.servico";
 import { LivroDao } from "../../src/dao/livro.dao";
 import { Livro } from "../../src/modelo/livro";
 
-// Jest: cria um mock do LivroDao — substitui os métodos reais por funções simuladas
+// Jest: cria um mock do LivroDao — substitui os métodos reais por funções simuladas - execução
 jest.mock("../../src/dao/livro.dao");
 
 describe("LivroServico", () => {
+    // define o tipo TypeScript do mock - compilação
     let livroDaoMock: jest.Mocked<LivroDao>;
     let service: LivroServico;
 
     beforeEach(() => {
-        jest.clearAllMocks();
+        //jest.clearAllMocks();
         // Jest: cria uma nova instância do mock antes de cada teste
         livroDaoMock = new LivroDao() as jest.Mocked<LivroDao>;
         service = new LivroServico(livroDaoMock);
