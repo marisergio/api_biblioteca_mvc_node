@@ -4,14 +4,13 @@ import conexao from "../util/conexao";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 
 export class LivroDao {
-    public async salvar(livro: Livro) {
+    public async salvar(livro: Livro): Promise<void> {
         try {
             const { id, titulo, autor, editora, anoLancamento, quantidade } = livro
             await conexao.query('INSERT INTO livro(id, titulo, autor, editora, ano_lancamento, quantidade) VALUES(?, ?, ?, ?, ?, ?)', [id, titulo, autor, editora, anoLancamento, quantidade])
         } catch (error) {
             throw error
         }
-
     }
 
     public async listar(): Promise<LivroListarDto[]> {
