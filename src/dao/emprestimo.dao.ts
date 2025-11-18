@@ -10,7 +10,7 @@ export class EmprestimoDao implements GenericDao<Emprestimo>{
     public async salvar(emprestimo: Emprestimo): Promise<boolean> {
         try {
             const { id, leitor_id, livro_id, data, status } = emprestimo
-            await conexao.query('INSERT INTO emprestimo(id, leitor_id, livro_id, data, status) VALUES(?, ?, ?, ?,?)', [id, leitor_id, livro_id, data, status])
+            await conexao.query('INSERT INTO emprestimos(id, leitor_id, livro_id, data, status) VALUES(?, ?, ?, ?,?)', [id, leitor_id, livro_id, data, status])
         } catch (error: unknown) {
             if (error instanceof Error) {
                 throw new Error(`Erro ao salvar o empréstimo: ${error.message}`);
@@ -24,17 +24,17 @@ export class EmprestimoDao implements GenericDao<Emprestimo>{
     public async buscar(id: string): Promise<Emprestimo | null> {
         try {
             const [[result]] = await conexao.query<RowDataPacket[]>(
-                'SELECT e.*, p.nome, l.titulo, l.autor, l.quantidade FROM emprestimo e INNER JOIN pessoa p ON(e.leitor_id=p.id) INNER JOIN livro l ON(l.id=e.livro_id) WHERE e.id=?',
+                'SELECT e.*, p.nome, l.titulo, l.autor, l.quantidade, l.editora, l.ano_lancamento FROM emprestimos e INNER JOIN pessoa p ON(e.leitor_id=p.id) INNER JOIN livro l ON(l.id=e.livro_id) WHERE e.id=?',
                 [id])
             if (!result) {
                 return null
             }
 
-            const { quantidade, autor, nome, titulo, leitor_id, livro_id, created_at, updated_at, status, data, data_prevista, data_entrega } = result
+            const { editora, ano_lancamento, quantidade, autor, nome, titulo, leitor_id, livro_id, created_at, updated_at, status, data, data_prevista, data_entrega } = result
 
 
             const leitor = Pessoa.assemble(leitor_id, nome)
-            const livro = Livro.construir(livro_id, titulo, autor, quantidade)
+            const livro = Livro.construir(livro_id, titulo, autor, editora, ano_lancamento, quantidade)
             const emprestimo = Emprestimo.assemble({ id, leitor, livro, leitor_id, livro_id, created_at, updated_at, status, data, data_prevista, data_entrega })
             return emprestimo
 
@@ -46,7 +46,7 @@ export class EmprestimoDao implements GenericDao<Emprestimo>{
     public async buscarQtdePorLeitor(leitor_id: string): Promise<number> {
         try {
             const [[result]] = await conexao.query<RowDataPacket[]>(
-                'SELECT count(*) qtde FROM emprestimo WHERE leitor_id=? and status=0',
+                'SELECT count(*) qtde FROM emprestimos WHERE leitor_id=? and status=0',
                 [leitor_id])
 
             return result?.qtde ?? 0
@@ -59,7 +59,7 @@ export class EmprestimoDao implements GenericDao<Emprestimo>{
     public async buscarQtdePorLivro(livro_id: string): Promise<number> {
         try {
             const [[result]] = await conexao.query<RowDataPacket[]>(
-                'SELECT count(*) qtde FROM emprestimo WHERE livro_id=? and status=0',
+                'SELECT count(*) qtde FROM emprestimos WHERE livro_id=? and status=0',
                 [livro_id]
             );
 
