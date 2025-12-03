@@ -10,7 +10,7 @@ export class PessoaDao implements GenericDao<Pessoa>{
     public async salvar(pessoa: Pessoa): Promise<boolean> {
         try {
             const { id, nome, nascimento, sexo, cpf, celular, email, logradouro, numero, bairro, cep, cidade_id } = pessoa
-            await conexao.query('INSERT INTO pessoa(id, nome, nascimento, sexo, cpf, celular, email, logradouro, numero, bairro, cep, cidade_id) VALUES(?, ?, ?, ?,?, ?, ?, ?,?, ?, ?, ?)', [id, nome, nascimento, sexo, cpf, celular, email, logradouro, numero, bairro, cep, cidade_id])
+            await conexao.query('INSERT INTO pessoas(id, nome, nascimento, sexo, cpf, celular, email, logradouro, numero, bairro, cep, cidade_id) VALUES(?, ?, ?, ?,?, ?, ?, ?,?, ?, ?, ?)', [id, nome, nascimento, sexo, cpf, celular, email, logradouro, numero, bairro, cep, cidade_id])
         } catch (error) {
             throw error
         }
@@ -23,11 +23,11 @@ export class PessoaDao implements GenericDao<Pessoa>{
                 'SELECT ' +
                 'p.*, c.nome as nomeCidade, c.estado_id, e.nome as nomeEstado ' +
                 'FROM ' +
-                'pessoa p ' +
+                'pessoas p ' +
                 'INNER JOIN ' +
-                'cidade c ON(c.id=p.cidade_id) ' +
+                'cidades c ON(c.id=p.cidade_id) ' +
                 'INNER JOIN ' +
-                'estado e ON(e.id=c.estado_id) ' +
+                'estados e ON(e.id=c.estado_id) ' +
                 'WHERE ' +
                 'p.id = ?',
                 [id])
@@ -56,7 +56,7 @@ export class PessoaDao implements GenericDao<Pessoa>{
     public async listar(): Promise<PessoaListarDto[] | null> {
         try {
             const [pessoasDto] = await conexao.query<PessoaListarDto[] & RowDataPacket[]>(
-                'SELECT id, nome, cpf FROM pessoa'
+                'SELECT id, nome, cpf FROM pessoas'
             );
             if (pessoasDto.length === 0) {
                 return null;
