@@ -27,6 +27,7 @@ export class LivroServico implements LivroInterfaceServico {
 
     public async buscar(id: string): Promise<LivroProps | null> {
         try {
+            
             const livro: Livro | null = await this.livroDao.buscar(id)
             return livro?.props ?? livro
         } catch (error) {

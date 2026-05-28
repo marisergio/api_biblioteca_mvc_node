@@ -9,7 +9,7 @@ export class EmprestimoServico {
 
     public async emprestar(emprestimoDto: EmprestimoDtoCreate) {
         const qtdeEmprestimosAtivos = await this.emprestimoDao.buscarQtdePorLeitor(emprestimoDto.leitor_id);
-        if (qtdeEmprestimosAtivos > 2) {
+        if (qtdeEmprestimosAtivos >= 2) {
             throw new Error("Erro: leitor já possui 2 empréstimos.")
         }
 
@@ -23,6 +23,7 @@ export class EmprestimoServico {
         try {
             const emprestimo = Emprestimo.build(emprestimoDto)
             await this.emprestimoDao.salvar(emprestimo)
+            return true;
         } catch (error) {
             throw error;
         }

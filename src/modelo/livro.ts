@@ -15,7 +15,6 @@ export class Livro {
 
         if (!titulo.trim()) throw new Error("Título não pode ser vazio");
 
-
         const props: LivroProps = {
             id: crypto.randomUUID().toString(),
             titulo,

@@ -69,15 +69,16 @@ describe("Integração - Emprestar Livro", () => {
       data,
     });
 
+
     expect(res3.status).toBe(500);
-    expect(res3.body.mensagem.message).toBe("Erro: leitor já possui 2 empréstimos.");
+    expect(res3.body.mensagem).toBe("Erro: leitor já possui 2 empréstimos.");
   });
 
-  test("não deve permitir empréstimo quando não há mais unidades disponíveis", async () => {
+  test("não deve permitir empréstimo quando não há mais exemplares disponíveis", async () => {
     const leitor1 = await criarPessoa("Pessoa 1");
     const leitor2 = await criarPessoa("Pessoa 2");
 
-    const livroId = await criarLivro("Sapiens", 1); // só 1 unidade
+    const livroId = await criarLivro("Sapiens", 1); // só 1 exemplar
 
     const data = new Date().toISOString();
 
@@ -96,7 +97,7 @@ describe("Integração - Emprestar Livro", () => {
     });
 
     expect(res.status).toBe(500);
-    expect(res.body.mensagem.message).toBe("Erro: este livro não está disponível.");
+    expect(res.body.mensagem).toBe("Erro: este livro não está disponível.");
   });
 
   test("deve retornar 400 quando o DTO for inválido", async () => {

@@ -20,9 +20,10 @@ export class EmprestimoControle {
 
         try {
             const emprestimo = await this.emprestimoService.emprestar(emprestimoDto)
-            res.status(201).json(emprestimo).send()
+            res.status(201).json(emprestimo)
         } catch (error) {
-            return res.status(500).json({ mensagem: error });
+            const mensagem = error instanceof Error ? error.message : String(error);
+            return res.status(500).json({ mensagem });
         }
     }
 }

@@ -45,11 +45,12 @@ export class EmprestimoDao implements GenericDao<Emprestimo>{
 
     public async buscarQtdePorLeitor(leitor_id: string): Promise<number> {
         try {
+            const status='0';
             const [[result]] = await conexao.query<RowDataPacket[]>(
-                'SELECT count(*) qtde FROM emprestimos WHERE leitor_id=? and status=0',
-                [leitor_id])
+                'SELECT count(*) qtde FROM emprestimos WHERE leitor_id=? and status=?',
+                [leitor_id, status])
 
-            return result?.qtde ?? 0
+                return result?.qtde ?? 0
 
         } catch (error) {
             throw error
