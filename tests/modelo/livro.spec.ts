@@ -1,3 +1,4 @@
+import { describe, it, test, expect } from "vitest";
 import { Livro } from "../../src/modelo/livro";
 
 describe("Livro (modelo de domínio)", () => {

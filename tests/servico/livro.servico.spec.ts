@@ -1,13 +1,14 @@
+import { describe, it, test, expect, beforeEach, vi } from "vitest";
 import { LivroServico } from "../../src/servico/livro.servico";
 import { LivroDao } from "../../src/dao/livro.dao";
 import { Livro } from "../../src/modelo/livro";
 
-// Jest: cria um mock do LivroDao — substitui os métodos reais por funções simuladas - execução
-jest.mock("../../src/dao/livro.dao");
+// Vitest: cria um mock do LivroDao — substitui os métodos reais por funções simuladas - execução
+vi.mock("../../src/dao/livro.dao");
 
 describe("LivroServico", () => {
     // define o tipo TypeScript do mock - compilação
-    let livroDaoMock: jest.Mocked<LivroDao>;
+    let livroDaoMock: ReturnType<typeof vi.mocked<typeof LivroDao>>;
     let service: LivroServico;
 
     beforeEach(() => {

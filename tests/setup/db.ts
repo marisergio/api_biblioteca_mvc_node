@@ -1,3 +1,4 @@
+import { beforeAll, beforeEach, afterAll } from "vitest";
 import conexao from "../../src/util/conexao";
 import "reflect-metadata";
 
