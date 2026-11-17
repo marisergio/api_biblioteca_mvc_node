@@ -1,10 +1,10 @@
 import { describe, it, test, expect, beforeEach, vi } from "vitest";
-import { LivroServico } from "../../src/servico/livro.servico";
-import { LivroDao } from "../../src/dao/livro.dao";
-import { Livro } from "../../src/modelo/livro";
+import { LivroServico } from "../../../src/servico/livro.servico";
+import { LivroDao } from "../../../src/dao/livro.dao";
+import { Livro } from "../../../src/modelo/livro";
 
 // Vitest: cria um mock do LivroDao — substitui os métodos reais por funções simuladas - execução
-vi.mock("../../src/dao/livro.dao");
+vi.mock("../../../src/dao/livro.dao");
 
 describe("LivroServico", () => {
     // define o tipo TypeScript do mock - compilação
