@@ -73,4 +73,72 @@ describe("Livro (modelo de domínio)", () => {
     expect(() => Livro.build("", "Autor","Editora Livro", 2020)).toThrow("Título não pode ser vazio");
   });
 
+  test("deve lançar erro se título conter apenas espaços", () => {
+    expect(() => Livro.build("   ", "Autor", "Editora", 2020)).toThrow("Título não pode ser vazio");
+  });
+
+  test("deve lançar erro se título for apenas tabs e espaços", () => {
+    expect(() => Livro.build("\t  \n", "Autor", "Editora", 2020)).toThrow("Título não pode ser vazio");
+  });
+
+  test("deve retornar todos os getters corretamente", () => {
+    const livro = Livro.construir("xyz", "Título Test", "Autor Test", "Editora Test", 2023, 10);
+
+    expect(livro.id).toBe("xyz");
+    expect(livro.titulo).toBe("Título Test");
+    expect(livro.autor).toBe("Autor Test");
+    expect(livro.editora).toBe("Editora Test");
+    expect(livro.anoLancamento).toBe(2023);
+    expect(livro.quantidade).toBe(10);
+  });
+
+  test("ID gerado deve ser diferente para livros diferentes", () => {
+    const livro1 = Livro.build("Livro 1", "Autor 1", "Editora 1", 2020);
+    const livro2 = Livro.build("Livro 2", "Autor 2", "Editora 2", 2021);
+
+    expect(livro1.id).not.toBe(livro2.id);
+  });
+
+  test("deve permitir emprestar um livro e sua quantidade deve ficar uma unidade menor", () => {
+    const livro = Livro.construir("5", "Teste Empresa", "Autor", "Editora", 2000, 5);
+
+    expect(livro.quantidade).toBe(5);
+    livro.emprestar();
+    expect(livro.quantidade).toBe(4);
+    livro.emprestar();
+    expect(livro.quantidade).toBe(3);
+  });
+
+  test("deve retornar props corretamente", () => {
+    const livro = Livro.construir("props-test", "Título Props", "Autor Props", "Editora Props", 2022, 8);
+    const props = livro.props;
+
+    expect(props.id).toBe("props-test");
+    expect(props.titulo).toBe("Título Props");
+    expect(props.autor).toBe("Autor Props");
+    expect(props.editora).toBe("Editora Props");
+    expect(props.anoLancamento).toBe(2022);
+    expect(props.quantidade).toBe(8);
+  });
+
+  test("construir deve funcionar com quantidade zero", () => {
+    const livro = Livro.construir("zero", "Livro Zero", "Autor", "Editora", 2024, 0);
+
+    expect(livro.quantidade).toBe(0);
+    expect(livro.emprestar()).toBe(false);
+  });
+
+  test("construir deve funcionar com quantidade negativa (edge case)", () => {
+    const livro = Livro.construir("neg", "Livro Neg", "Autor", "Editora", 2024, -1);
+
+    expect(livro.quantidade).toBe(-1);
+    expect(livro.emprestar()).toBe(false);
+  });
+
+  test("build deve gerar ID no formato UUID", () => {
+    const livro = Livro.build("Livro UUID", "Autor", "Editora", 2024);
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+    expect(livro.id).toMatch(uuidRegex);
+  });
 });
